@@ -30,23 +30,23 @@ const (
 )
 
 type NodeInput struct {
-	Id string
+	Id   string
 	Next []string
 }
 
 type NodeOutput struct {
 	*NodeInput
 	*Anchor
-	IsAnchor bool
-	PassedIncomes []string
-	RenderIncomes []string
+	IsAnchor         bool
+	PassedIncomes    []string
+	RenderIncomes    []string
 	ChildrenOnMatrix int
 }
 
 type Anchor struct {
-	Type AnchorType
-	From string
-	To string
+	Type   AnchorType
+	From   string
+	To     string
 	Margin AnchorMarginType
 }
 
@@ -54,4 +54,12 @@ type MatrixNode struct {
 	*NodeOutput
 	X int
 	Y int
+}
+
+type loopNode struct {
+	id         string
+	node       *NodeOutput
+	x          int
+	y          int
+	isSelfLoop bool
 }

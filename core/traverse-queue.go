@@ -9,7 +9,7 @@ func NewTraverseQueue() *TraverseQueue {
 }
 
 func (q *TraverseQueue) add(incomeId *string, bufferQueue *TraverseQueue, items ...*NodeInput) {
-	for _ ,itm := range items {
+	for _, itm := range items {
 		item := q.find(func(v *NodeOutput) bool {
 			return v.Id == itm.Id
 		})
@@ -28,17 +28,17 @@ func (q *TraverseQueue) add(incomeId *string, bufferQueue *TraverseQueue, items 
 		}
 		q.s = append(q.s, &NodeOutput{
 			NodeInput: &NodeInput{
-				Id: itm.Id,
+				Id:   itm.Id,
 				Next: itm.Next,
 			},
-			PassedIncomes: append([]string{}, incomes...),
-			RenderIncomes: append([]string{}, incomes...),
+			PassedIncomes:    append([]string{}, incomes...),
+			RenderIncomes:    append([]string{}, incomes...),
 			ChildrenOnMatrix: 0,
 		})
 	}
 }
 
-func (q *TraverseQueue) find(cb func(v *NodeOutput)bool)*NodeOutput {
+func (q *TraverseQueue) find(cb func(v *NodeOutput) bool) *NodeOutput {
 	for _, itm := range q.s {
 		if cb(itm) {
 			return itm
@@ -55,7 +55,7 @@ func (q *TraverseQueue) length() int {
 	return len(q.s)
 }
 
-func (q *TraverseQueue) some(cb func(v *NodeOutput)bool) bool {
+func (q *TraverseQueue) some(cb func(v *NodeOutput) bool) bool {
 	for _, itm := range q.s {
 		if cb(itm) {
 			return true

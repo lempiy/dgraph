@@ -64,7 +64,7 @@ func (m *Matrix) getFreeRowForColumn(x int) int {
 }
 
 func (m *Matrix) extendHeight(toValue int) {
-	for m.Height() < toValue{
+	for m.Height() < toValue {
 		m.s = append(m.s, make([]*NodeOutput, m.Width()))
 	}
 }
@@ -88,7 +88,7 @@ func (m *Matrix) insertColumnBefore(x int) {
 	}
 }
 
-func (m *Matrix) find(callback func(item *NodeOutput)bool) []int {
+func (m *Matrix) find(callback func(item *NodeOutput) bool) []int {
 	for y, row := range m.s {
 		for x, point := range row {
 			if point == nil {
@@ -104,10 +104,10 @@ func (m *Matrix) find(callback func(item *NodeOutput)bool) []int {
 
 type findNodeResult struct {
 	coords []int
-	item *NodeOutput
+	item   *NodeOutput
 }
 
-func (m *Matrix) findNode(callback func(item *NodeOutput)bool) *findNodeResult {
+func (m *Matrix) findNode(callback func(item *NodeOutput) bool) *findNodeResult {
 	for y, row := range m.s {
 		for x, point := range row {
 			if point == nil {
@@ -115,8 +115,8 @@ func (m *Matrix) findNode(callback func(item *NodeOutput)bool) *findNodeResult {
 			}
 			if callback(point) {
 				return &findNodeResult{
-					coords: []int{x,y},
-					item: point,
+					coords: []int{x, y},
+					item:   point,
 				}
 			}
 		}
@@ -133,10 +133,10 @@ func (m *Matrix) getByCoords(x, y int) *NodeOutput {
 
 func (m *Matrix) insert(x, y int, item *NodeOutput) {
 	if m.Height() <= y {
-		m.extendHeight(y+1)
+		m.extendHeight(y + 1)
 	}
 	if m.Width() <= x {
-		m.extendWidth(x+1)
+		m.extendWidth(x + 1)
 	}
 	m.s[y][x] = item
 }
