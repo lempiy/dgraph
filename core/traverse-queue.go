@@ -69,7 +69,7 @@ func (q *TraverseQueue) shift() *NodeOutput {
 		return nil
 	}
 	item := *q.s[0]
-	q.s = append(q.s, q.s[1:]...)
+	q.s = append([]*NodeOutput{}, q.s[1:]...)
 	return &item
 }
 

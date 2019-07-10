@@ -81,10 +81,12 @@ func (g *Graph) handleJoinNode(item *NodeOutput, state *state, levelQueue *Trave
 
 func (g *Graph) handleSimpleNode(item *NodeOutput, state *state, levelQueue *TraverseQueue) (err error) {
 	queue := state.queue
+	fmt.Println("before")
 	isInserted, err := g.processOrSkipNodeOnMatrix(item, state)
 	if err != nil {
 		return
 	}
+	fmt.Println("after")
 	if isInserted {
 		queue.add(&item.Id, levelQueue, g.getOutcomesArray(item.Id)...)
 	}
@@ -111,5 +113,54 @@ func (g *Graph) traverseItem(item *NodeOutput, state *state, levelQueue *Travers
 	default:
 		err = fmt.Errorf("unknown node type - %d", g.nodeType(item.Id))
 	}
+	return
+}
+
+func (g *Graph) traverseLevel(iterations int, state *state) (n int, err error) {
+	queue := state.queue
+	levelQueue := queue.drain()
+	for levelQueue.length() != 0 {
+		iterations++
+		item := levelQueue.shift()
+		err = g.traverseItem(item, state, levelQueue)
+		if err != nil {
+			return
+		}
+		if iterations > MaxIterations {
+			err = fmt.Errorf("infinite loop")
+			return
+		}
+	}
+	n = iterations
+	return
+}
+
+func (g *Graph) traverseList(state *state) (mtx *Matrix, err error) {
+	safe := 0
+	mtx, queue := state.mtx, state.queue
+	for queue.length() != 0 {
+		safe, err = g.traverseLevel(safe, state)
+		if err != nil {
+			return
+		}
+		state.x++
+	}
+	return
+}
+
+func (g *Graph) Traverse() (mtx *Matrix, err error) {
+	roots := g.roots()
+	state := &state{
+		mtx:   NewMatrix(),
+		queue: NewTraverseQueue(),
+	}
+	if len(roots) == 0 {
+		err = fmt.Errorf("no graph roots found")
+		return
+	}
+	mtx, queue := state.mtx, state.queue
+	queue.add(
+		nil, nil, roots...)
+	mtx, err = g.traverseList(state)
 	return
 }

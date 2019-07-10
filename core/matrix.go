@@ -70,9 +70,9 @@ func (m *Matrix) extendHeight(toValue int) {
 }
 
 func (m *Matrix) extendWidth(toValue int) {
-	for _, row := range m.s {
-		for len(row) < toValue {
-			row = append(row, nil)
+	for i := range m.s {
+		for len(m.s[i]) < toValue {
+			m.s[i] = append(m.s[i], nil)
 		}
 	}
 }

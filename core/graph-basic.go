@@ -96,10 +96,11 @@ func (g *GraphBasic) isLoopEdge(nodeId, outcomeId string) bool {
 	return false
 }
 
-func (g *GraphBasic) roots() (roots []NodeInput) {
+func (g *GraphBasic) roots() (roots []*NodeInput) {
 	for _, node := range g.list {
 		if g.isRoot(node.Id) {
-			roots = append(roots, node)
+			n := node
+			roots = append(roots, &n)
 		}
 	}
 	return
