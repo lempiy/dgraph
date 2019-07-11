@@ -3,15 +3,20 @@ package ascii
 const (
 	HorizontalLine uint8 = 1 << iota
 	VerticalLine
+	HorizontalBorder
+	VerticalBorder
 	LeftTopCorner
 	RightTopCorner
 	LeftBottomCorner
 	RightBottomCorner
 )
 
-var AsciiBitmask = [35]rune{
-	HorizontalLine:    '─',
-	VerticalLine:      '│',
+var AsciiBitmask = [131]rune{
+	HorizontalLine:   '─',
+	HorizontalBorder: '─',
+	VerticalLine:     '│',
+	VerticalBorder:   '│',
+
 	LeftTopCorner:     '┌',
 	RightTopCorner:    '┐',
 	LeftBottomCorner:  '└',
@@ -19,8 +24,10 @@ var AsciiBitmask = [35]rune{
 
 	HorizontalLine | VerticalLine: '┼',
 
+	HorizontalBorder | VerticalLine:    '┬',
 	HorizontalLine | LeftTopCorner:     '┬',
 	HorizontalLine | RightTopCorner:    '┬',
+	VerticalBorder | HorizontalLine:    '┴',
 	HorizontalLine | LeftBottomCorner:  '┴',
 	HorizontalLine | RightBottomCorner: '┴',
 
