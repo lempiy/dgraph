@@ -81,12 +81,10 @@ func (g *Graph) handleJoinNode(item *NodeOutput, state *state, levelQueue *Trave
 
 func (g *Graph) handleSimpleNode(item *NodeOutput, state *state, levelQueue *TraverseQueue) (err error) {
 	queue := state.queue
-	fmt.Println("before")
 	isInserted, err := g.processOrSkipNodeOnMatrix(item, state)
 	if err != nil {
 		return
 	}
-	fmt.Println("after")
 	if isInserted {
 		queue.add(&item.Id, levelQueue, g.getOutcomesArray(item.Id)...)
 	}

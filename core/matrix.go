@@ -145,6 +145,33 @@ func (m *Matrix) isAllChildrenOnMatrix(item *NodeOutput) bool {
 	return len(item.Next) == item.ChildrenOnMatrix
 }
 
+func (m *Matrix) String() (result string) {
+	max := 0
+	for _, row := range m.s {
+		for _, cell := range row {
+			if cell == nil {
+				continue
+			}
+			if len(cell.Id) > max {
+				max = len(cell.Id)
+			}
+		}
+	}
+	for _, row := range m.s {
+		for _, cell := range row {
+			if cell == nil {
+				result += fillWithSpaces(" ", max)
+				result += "│"
+				continue
+			}
+			result += fillWithSpaces(cell.Id, max)
+			result += "│"
+		}
+		result += "\n"
+	}
+	return result
+}
+
 func (m *Matrix) Normalize() map[string]*MatrixNode {
 	acc := make(map[string]*MatrixNode)
 	for y, row := range m.s {
@@ -155,4 +182,11 @@ func (m *Matrix) Normalize() map[string]*MatrixNode {
 		}
 	}
 	return acc
+}
+
+func fillWithSpaces(str string, l int) string {
+	for len(str) < l {
+		str += " "
+	}
+	return str
 }

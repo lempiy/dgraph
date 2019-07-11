@@ -116,7 +116,7 @@ func (g *GraphBasic) isSplit(id string) bool {
 }
 
 func (g *GraphBasic) isJoin(id string) bool {
-	return isMultiple(g.outcomesByNodeIdMap, id)
+	return isMultiple(g.incomesByNodeIdMap, id)
 }
 
 func (g *GraphBasic) loops(id string) []string {

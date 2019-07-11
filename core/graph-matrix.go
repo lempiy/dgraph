@@ -180,8 +180,8 @@ func (g *GraphMatrix) insertLoopEdges(item *NodeOutput, state *state, loopNodes 
 			}
 		}
 		initialHeight := mtx.Height()
-		fromId := fmt.Sprintf("%s-%s-from")
-		toId := fmt.Sprintf("%s-%s-to")
+		fromId := fmt.Sprintf("%s-%s-from", id, item.Id)
+		toId := fmt.Sprintf("%s-%s-to", id, item.Id)
 		node.RenderIncomes = append(node.RenderIncomes, fromId)
 		err = g.insertOrSkipNodeOnMatrix(&NodeOutput{
 			NodeInput: &NodeInput{
@@ -221,7 +221,7 @@ func (g *GraphMatrix) insertLoopEdges(item *NodeOutput, state *state, loopNodes 
 			RenderIncomes:    []string{toId},
 			PassedIncomes:    []string{item.Id},
 			ChildrenOnMatrix: 0,
-		}, state, true)
+		}, state, false)
 		if err != nil {
 			return
 		}
@@ -350,6 +350,7 @@ func (g *GraphMatrix) resolveCurrentJoinIncomes(mtx *Matrix, join *NodeOutput) (
 }
 
 func min(numbers ...int) (min int) {
+	min = numbers[0]
 	for _, n := range numbers {
 		if n < min {
 			min = n

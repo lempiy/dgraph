@@ -30,8 +30,8 @@ const (
 )
 
 type NodeInput struct {
-	Id   string
-	Next []string
+	Id   string   `json:"id"`
+	Next []string `json:"next"`
 }
 
 type NodeOutput struct {
