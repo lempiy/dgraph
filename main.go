@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/lempiy/dgraph/ascii"
 	"github.com/lempiy/dgraph/core"
 )
 
@@ -12,26 +13,26 @@ var list = []core.NodeInput{
 	},
 	{
 		Id:   "B",
-		Next: []string{"C", "D"},
+		Next: []string{"AWS", "D"},
 	},
 	{
 		Id:   "D",
 		Next: []string{"E"},
 	},
 	{
-		Id:   "C",
+		Id:   "AWS",
 		Next: []string{"F"},
 	},
 	{
 		Id:   "E",
-		Next: []string{"J"},
+		Next: []string{"DataExtensionLink"},
 	},
 	{
 		Id:   "F",
-		Next: []string{"J"},
+		Next: []string{"DataExtensionLink"},
 	},
 	{
-		Id:   "J",
+		Id:   "DataExtensionLink",
 		Next: []string{},
 	},
 }
@@ -140,5 +141,10 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	fmt.Printf("%s\n", mtx)
+	c, err := ascii.DrawAsciiMatrix(mtx)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Printf("%s\n", c)
 }

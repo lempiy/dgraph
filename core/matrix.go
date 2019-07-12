@@ -124,7 +124,8 @@ func (m *Matrix) findNode(callback func(item *NodeOutput) bool) *findNodeResult 
 	return nil
 }
 
-func (m *Matrix) getByCoords(x, y int) *NodeOutput {
+func (m *Matrix) GetByCoords(x, y int) *NodeOutput {
+	// TODO: remove dat check
 	if x >= m.Width() || y >= m.Height() {
 		return nil
 	}

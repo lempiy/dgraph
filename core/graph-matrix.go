@@ -118,7 +118,7 @@ func (g *GraphMatrix) handleLoopEdges(item *NodeOutput, state *state) (loopNodes
 			err = fmt.Errorf("loop target `%s` not found on matrix", incomeId)
 			return
 		}
-		node := mtx.getByCoords(coords[0], coords[1])
+		node := mtx.GetByCoords(coords[0], coords[1])
 		if node == nil {
 			err = fmt.Errorf("loop target node `%s` not found on matrix", incomeId)
 			return
