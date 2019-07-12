@@ -1,7 +1,5 @@
 package ascii
 
-import "fmt"
-
 const MaxWidth = 18
 const Padding = 1
 
@@ -105,9 +103,6 @@ func (r *Rectangle) drawBorders(canvas *Canvas) (err error) {
 func (r *Rectangle) drawTopBorder(canvas *Canvas) (err error) {
 	x1 := r.x1 + 1
 	y := r.y1
-
-	fmt.Println(r.title, x1, r.x1+r.width-1)
-
 	for x := x1; x < r.x1+r.width-1; x++ {
 		err = canvas.drawPixel(x, y, HorizontalBorder)
 		if err != nil {
@@ -141,13 +136,6 @@ func (r *Rectangle) drawLeftBorder(canvas *Canvas) (err error) {
 	return
 }
 
-func (r *Rectangle) GetEntryToVector(direction Direction, isTarget bool) [2]int {
-	if isTarget {
-		return getTargetCellEntry(direction, r.width, r.height, r.x1, r.y1)
-	}
-	return getSourceCellEntry(direction, r.width, r.height, r.x1, r.y1)
-}
-
 func (r *Rectangle) drawRightBorder(canvas *Canvas) (err error) {
 	y1 := r.y1 + 1
 	x := r.x1 + r.width - 1
@@ -158,6 +146,13 @@ func (r *Rectangle) drawRightBorder(canvas *Canvas) (err error) {
 		}
 	}
 	return
+}
+
+func (r *Rectangle) GetEntryToVector(direction Direction, isTarget bool) [2]int {
+	if isTarget {
+		return getToCellEntry(direction, r.width, r.height, r.x1, r.y1)
+	}
+	return getFromCellEntry(direction, r.width, r.height, r.x1, r.y1)
 }
 
 func (r *Rectangle) drawCorners(canvas *Canvas) (err error) {

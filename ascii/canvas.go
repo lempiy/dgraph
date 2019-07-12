@@ -5,8 +5,9 @@ import "fmt"
 type Canvas [][]*Pixel
 
 type Pixel struct {
-	Rune rune
-	Flag uint8
+	Rune        rune
+	Flag        uint16
+	InitialFlag uint16
 }
 
 func NewCanvas(width int, height int) *Canvas {
@@ -31,23 +32,26 @@ func (c *Canvas) drawLetter(x, y int, letter rune) (err error) {
 	return
 }
 
-func (c *Canvas) drawPixel(x, y int, flag uint8) (err error) {
+func (c *Canvas) drawPixel(x, y int, flag uint16) (err error) {
 	pixel := (*c)[y][x]
 	var newPixel Pixel
 	switch {
 	case pixel == nil:
 		newPixel.Rune = AsciiBitmask[flag]
 		newPixel.Flag = flag
+		newPixel.InitialFlag = flag
 	case pixel.Flag == 0:
 		err = fmt.Errorf("Found colision for pixel `%s` with letter `%s` on x: `%d` y: `%d`\n%s\n",
 			resolve(flag), string([]rune{pixel.Rune}), x, y, c)
 		return
 	default:
-		newPixel.Rune = AsciiBitmask[flag|pixel.Flag]
-		newPixel.Flag = flag | pixel.Flag
-		if AsciiBitmask[flag|pixel.Flag] == 0 {
-			err = fmt.Errorf("unexpected symbol intersection `%s` | `%s`\n%s\n",
-				resolve(newPixel.Flag), resolve(pixel.Flag), c)
+		newPixel.Rune = AsciiBitmask[flag|pixel.InitialFlag]
+		newPixel.Flag = flag | pixel.InitialFlag
+		newPixel.InitialFlag = pixel.InitialFlag
+		if AsciiBitmask[flag|pixel.InitialFlag] == 0 {
+			err = fmt.Errorf("unexpected symbol intersection new `%s` and old `%s`\n%s\n",
+				resolve(flag), resolve(pixel.Flag), c)
+			fmt.Println(flag, pixel.Flag, x, y, "---", flag|pixel.Flag)
 			return
 		}
 	}
@@ -69,6 +73,6 @@ func (c *Canvas) String() (acc string) {
 	return
 }
 
-func resolve(flag uint8) string {
+func resolve(flag uint16) string {
 	return string([]rune{AsciiBitmask[flag]})
 }

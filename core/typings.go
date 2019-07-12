@@ -21,12 +21,14 @@ const (
 	AnchorLoop
 )
 
-type AnchorMarginType int
+type AnchorOrientation int
 
 const (
-	AnchorMarginNone AnchorMarginType = iota
-	AnchorMarginLeft
-	AnchorMarginRight
+	AnchorOrientationNone AnchorOrientation = iota
+	AnchorOrientationTopLeft
+	AnchorOrientationTopRight
+	AnchorOrientationBottomLeft
+	AnchorOrientationBottomRight
 )
 
 type NodeInput struct {
@@ -44,10 +46,10 @@ type NodeOutput struct {
 }
 
 type Anchor struct {
-	Type   AnchorType
-	From   string
-	To     string
-	Margin AnchorMarginType
+	Type        AnchorType
+	From        string
+	To          string
+	Orientation AnchorOrientation
 }
 
 type MatrixNode struct {

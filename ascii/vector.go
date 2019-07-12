@@ -36,7 +36,7 @@ func getCellCenter(width, height, x1, y1 int) (coords [2]int) {
 	return coords
 }
 
-func getTargetCellEntry(direction Direction, width, height, x1, y1 int) (coords [2]int) {
+func getFromCellEntry(direction Direction, width, height, x1, y1 int) (coords [2]int) {
 	switch direction {
 	case DirectionTop:
 		center := getCellCenter(width, height, x1, y1)
@@ -58,7 +58,7 @@ func getTargetCellEntry(direction Direction, width, height, x1, y1 int) (coords 
 	return
 }
 
-func getSourceCellEntry(direction Direction, width, height, x1, y1 int) (coords [2]int) {
+func getToCellEntry(direction Direction, width, height, x1, y1 int) (coords [2]int) {
 	switch direction {
 	case DirectionBottom:
 		center := getCellCenter(width, height, x1, y1)

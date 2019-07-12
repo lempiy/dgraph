@@ -1,20 +1,26 @@
 package ascii
 
 const (
-	HorizontalLine uint8 = 1 << iota
-	VerticalLine
+	RightVector uint16 = 1 << iota
+	LeftVector
+	TopVector
+	BottomVector
 	HorizontalBorder
 	VerticalBorder
 	LeftTopCorner
 	RightTopCorner
 	LeftBottomCorner
 	RightBottomCorner
+	StartMarker
+	EndMarker
 )
 
-var AsciiBitmask = [131]rune{
-	HorizontalLine:   '─',
+var AsciiBitmask = map[uint16]rune{
+	RightVector:      '─',
+	LeftVector:       '─',
 	HorizontalBorder: '─',
-	VerticalLine:     '│',
+	TopVector:        '│',
+	BottomVector:     '│',
 	VerticalBorder:   '│',
 
 	LeftTopCorner:     '┌',
@@ -22,17 +28,45 @@ var AsciiBitmask = [131]rune{
 	LeftBottomCorner:  '└',
 	RightBottomCorner: '┘',
 
-	HorizontalLine | VerticalLine: '┼',
+	RightVector | TopVector:    '┼',
+	LeftVector | TopVector:     '┼',
+	RightVector | BottomVector: '┼',
+	LeftVector | BottomVector:  '┼',
 
-	HorizontalBorder | VerticalLine:    '┬',
-	HorizontalLine | LeftTopCorner:     '┬',
-	HorizontalLine | RightTopCorner:    '┬',
-	VerticalBorder | HorizontalLine:    '┴',
-	HorizontalLine | LeftBottomCorner:  '┴',
-	HorizontalLine | RightBottomCorner: '┴',
+	LeftVector | RightVector: '─',
+	TopVector | BottomVector: '│',
 
-	VerticalLine | RightBottomCorner: '┤',
-	VerticalLine | RightTopCorner:    '┤',
-	VerticalLine | LeftTopCorner:     '├',
-	VerticalLine | LeftBottomCorner:  '├',
+	HorizontalBorder | TopVector | StartMarker:    '┴',
+	HorizontalBorder | BottomVector | StartMarker: '┬',
+	VerticalBorder | RightVector | StartMarker:    '├',
+	VerticalBorder | LeftVector | StartMarker:     '┤',
+
+	HorizontalBorder | TopVector | EndMarker:    '┬',
+	HorizontalBorder | BottomVector | EndMarker: '┴',
+	VerticalBorder | RightVector | EndMarker:    '┤',
+	VerticalBorder | LeftVector | EndMarker:     '├',
+
+	RightVector | LeftTopCorner: '┬',
+	LeftVector | LeftTopCorner:  '┬',
+
+	RightVector | RightTopCorner: '┬',
+	LeftVector | RightTopCorner:  '┬',
+
+	RightVector | LeftBottomCorner: '┴',
+	LeftVector | LeftBottomCorner:  '┴',
+
+	LeftVector | RightBottomCorner:  '┴',
+	RightVector | RightBottomCorner: '┴',
+
+	TopVector | RightBottomCorner:    '┤',
+	BottomVector | RightBottomCorner: '┤',
+
+	TopVector | RightTopCorner:    '┤',
+	BottomVector | RightTopCorner: '┤',
+
+	TopVector | LeftTopCorner:    '├',
+	BottomVector | LeftTopCorner: '├',
+
+	TopVector | LeftBottomCorner:    '├',
+	BottomVector | LeftBottomCorner: '├',
 }
