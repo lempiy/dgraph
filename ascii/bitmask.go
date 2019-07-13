@@ -15,7 +15,7 @@ const (
 	EndMarker
 )
 
-var AsciiBitmask = map[uint16]rune{
+var Bitmask = map[uint16]rune{
 	RightVector:      '─',
 	LeftVector:       '─',
 	HorizontalBorder: '─',

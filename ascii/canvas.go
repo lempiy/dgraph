@@ -37,7 +37,7 @@ func (c *Canvas) drawPixel(x, y int, flag uint16) (err error) {
 	var newPixel Pixel
 	switch {
 	case pixel == nil:
-		newPixel.Rune = AsciiBitmask[flag]
+		newPixel.Rune = Bitmask[flag]
 		newPixel.Flag = flag
 		newPixel.InitialFlag = flag
 	case pixel.Flag == 0:
@@ -45,13 +45,12 @@ func (c *Canvas) drawPixel(x, y int, flag uint16) (err error) {
 			resolve(flag), string([]rune{pixel.Rune}), x, y, c)
 		return
 	default:
-		newPixel.Rune = AsciiBitmask[flag|pixel.InitialFlag]
+		newPixel.Rune = Bitmask[flag|pixel.InitialFlag]
 		newPixel.Flag = flag | pixel.InitialFlag
 		newPixel.InitialFlag = pixel.InitialFlag
-		if AsciiBitmask[flag|pixel.InitialFlag] == 0 {
+		if Bitmask[flag|pixel.InitialFlag] == 0 {
 			err = fmt.Errorf("unexpected symbol intersection new `%s` and old `%s`\n%s\n",
 				resolve(flag), resolve(pixel.Flag), c)
-			fmt.Println(flag, pixel.Flag, x, y, "---", flag|pixel.Flag)
 			return
 		}
 	}
@@ -74,5 +73,5 @@ func (c *Canvas) String() (acc string) {
 }
 
 func resolve(flag uint16) string {
-	return string([]rune{AsciiBitmask[flag]})
+	return string([]rune{Bitmask[flag]})
 }

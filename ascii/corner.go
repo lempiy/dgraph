@@ -15,7 +15,7 @@ func NewCorner(x, y int, orientation core.AnchorOrientation) *Corner {
 		x:           x,
 		y:           y,
 		orientation: orientation,
-		rune:        AsciiBitmask[getFlagFromOrientation(orientation)],
+		rune:        Bitmask[getFlagFromOrientation(orientation)],
 		flag:        getFlagFromOrientation(orientation),
 	}
 }
